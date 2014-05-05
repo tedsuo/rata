@@ -7,20 +7,20 @@ import (
 	"strings"
 )
 
-type Resquestor struct {
+type RequestGenerator struct {
 	Header http.Header
 	host   string
 	routes Routes
 }
 
-func NewRequestor(host string, routes Routes) *Resquestor {
-	return &Resquestor{
+func NewRequestGenerator(host string, routes Routes) *RequestGenerator {
+	return &RequestGenerator{
 		host:   host,
 		routes: routes,
 	}
 }
 
-func (r *Resquestor) RequestForHandler(
+func (r *RequestGenerator) RequestForHandler(
 	handler string,
 	params Params,
 	body io.Reader,
