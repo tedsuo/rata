@@ -17,11 +17,11 @@ import (
 //  }
 type Params map[string]string
 
-// A Route defines properites of an HTTP endpoint.  At runtime, the router will
-// associate each Route with a http.Handler object, and use the Route properites
+// A Route defines properties of an HTTP endpoint.  At runtime, the router will
+// associate each Route with a http.Handler object, and use the Route properties
 // to determine which Handler should be invoked.
 //
-// Currently, properies used in match are such as Method and Path.
+// Currently, properties used in match are such as Method and Path.
 //
 // Method is one of the following:
 //  GET PUT POST DELETE
