@@ -175,28 +175,32 @@ var _ = Describe("Router", func() {
 			})
 
 			It("makes GET handlers", func() {
-				req, _ := http.NewRequest("GET", "/something", nil)
+				req, err := http.NewRequest("GET", "/something", nil)
+				Ω(err).ShouldNot(HaveOccurred())
 
 				r.ServeHTTP(resp, req)
 				Ω(resp.Body.String()).Should(Equal("get response"))
 			})
 
 			It("makes POST handlers", func() {
-				req, _ := http.NewRequest("POST", "/something", nil)
+				req, err := http.NewRequest("POST", "/something", nil)
+				Ω(err).ShouldNot(HaveOccurred())
 
 				r.ServeHTTP(resp, req)
 				Ω(resp.Body.String()).Should(Equal("post response"))
 			})
 
 			It("makes PUT handlers", func() {
-				req, _ := http.NewRequest("PUT", "/something", nil)
+				req, err := http.NewRequest("PUT", "/something", nil)
+				Ω(err).ShouldNot(HaveOccurred())
 
 				r.ServeHTTP(resp, req)
 				Ω(resp.Body.String()).Should(Equal("put response"))
 			})
 
 			It("makes DELETE handlers", func() {
-				req, _ := http.NewRequest("DELETE", "/something", nil)
+				req, err := http.NewRequest("DELETE", "/something", nil)
+				Ω(err).ShouldNot(HaveOccurred())
 
 				r.ServeHTTP(resp, req)
 				Ω(resp.Body.String()).Should(Equal("delete response"))
@@ -275,7 +279,8 @@ var _ = Describe("Router", func() {
 				})
 
 				It("the path param takes precedence", func() {
-					req, _ := http.NewRequest("GET", "/something/the-param-value?:neato=the-query-value", nil)
+					req, err := http.NewRequest("GET", "/something/the-param-value?:neato=the-query-value", nil)
+					Ω(err).ShouldNot(HaveOccurred())
 
 					r.ServeHTTP(resp, req)
 					Ω(resp.Body.String()).Should(Equal("the-param-value"))
