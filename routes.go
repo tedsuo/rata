@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"path"
 	"runtime"
 	"strings"
 )
@@ -80,7 +81,7 @@ func (r Route) CreatePath(params Params) (string, error) {
 			if !ok {
 				return "", fmt.Errorf("missing param %s", c)
 			}
-			components[i] = val
+			components[i] = url.PathEscape(val)
 		}
 	}
 
@@ -89,6 +90,38 @@ func (r Route) CreatePath(params Params) (string, error) {
 		return "", err
 	}
 	return u.String(), nil
+}
+
+// CreateURL combines the route's path pattern with a Host
+// and a Params map to produce a valid URL.
+func (r Route) CreateURL(host string, params Params) (*url.URL, error) {
+	components := strings.Split(r.Path, "/")
+
+	u, err := url.Parse(host)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, c := range components {
+		if len(c) == 0 {
+			continue
+		}
+
+		val := c
+		if c[0] == ':' {
+			var ok bool
+			val, ok = params[c[1:]]
+			if !ok {
+				return nil, fmt.Errorf("missing param %s", c)
+			}
+
+		}
+
+		u.Path = path.Join(u.Path, val)
+		u.RawPath = path.Join(u.RawPath, url.PathEscape(val))
+	}
+
+	return u, nil
 }
 
 // Routes is a Route collection.
