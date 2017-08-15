@@ -80,7 +80,7 @@ func (r Route) CreatePath(params Params) (string, error) {
 			if !ok {
 				return "", fmt.Errorf("missing param %s", c)
 			}
-			components[i] = val
+			components[i] = url.PathEscape(val)
 		}
 	}
 

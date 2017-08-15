@@ -29,8 +29,8 @@ var _ = Describe("Router", func() {
 					"param":       "1",
 					"many_things": "2",
 					"many":        "a space",
-					"it":          "4",
-				})).Should(Equal(`/a/path/1/with/2/a%20space/in/4`))
+					"it":          "with/slash",
+				})).Should(Equal(`/a/path/1/with/2/a%20space/in/with%2Fslash`))
 			})
 
 			Context("when the hash is missing params", func() {
