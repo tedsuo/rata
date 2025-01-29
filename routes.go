@@ -10,12 +10,15 @@ import (
 )
 
 // Params map path keys to values.  For example, if your route has the path pattern:
-//  /person/:person_id/pets/:pet_type
+//
+//	/person/:person_id/pets/:pet_type
+//
 // Then a correct Params map would lool like:
-//  router.Params{
-//    "person_id": "123",
-//    "pet_type": "cats",
-//  }
+//
+//	router.Params{
+//	  "person_id": "123",
+//	  "pet_type": "cats",
+//	}
 type Params map[string]string
 
 // A Route defines properties of an HTTP endpoint.  At runtime, the router will
@@ -25,7 +28,8 @@ type Params map[string]string
 // Currently, the properties used for matching are Method and Path.
 //
 // Method can be one of the following:
-//  GET HEAD POST PUT PATCH DELETE CONNECT OPTIONS TRACE
+//
+//	GET HEAD POST PUT PATCH DELETE CONNECT OPTIONS TRACE
 //
 // Path conforms to Pat-style pattern matching. The following docs are taken from
 // http://godoc.org/github.com/bmizerany/pat#PatternServeMux
@@ -38,26 +42,36 @@ type Params map[string]string
 // string.
 //
 // Example pattern with one capture:
-//   /hello/:name
+//
+//	/hello/:name
+//
 // Will match:
-//   /hello/blake
-//   /hello/keith
+//
+//	/hello/blake
+//	/hello/keith
+//
 // Will not match:
-//   /hello/blake/
-//   /hello/blake/foo
-//   /foo
-//   /foo/bar
+//
+//	/hello/blake/
+//	/hello/blake/foo
+//	/foo
+//	/foo/bar
 //
 // Example 2:
-//    /hello/:name/
+//
+//	/hello/:name/
+//
 // Will match:
-//   /hello/blake/
-//   /hello/keith/foo
-//   /hello/blake
-//   /hello/keith
+//
+//	/hello/blake/
+//	/hello/keith/foo
+//	/hello/blake
+//	/hello/keith
+//
 // Will not match:
-//   /foo
-//   /foo/bar
+//
+//	/foo
+//	/foo/bar
 type Route struct {
 	// Name is a key specifying which HTTP handler the router
 	// should associate with the endpoint at runtime.
@@ -146,7 +160,7 @@ func (r Routes) FindRouteByName(name string) (Route, bool) {
 func (r Routes) CreatePathForRoute(name string, params Params) (string, error) {
 	route, ok := r.FindRouteByName(name)
 	if !ok {
-		return "", fmt.Errorf("No route exists with the name %", name)
+		return "", fmt.Errorf("No route exists with the name %s", name)
 	}
 	return route.CreatePath(params)
 }

@@ -16,42 +16,48 @@ you to view, create, update, and delete which pets people own.  Also, you would
 like to include the owner_id and pet_id as part of the URL path.
 
 First off, the routes might look like this:
-  petRoutes := rata.Routes{
-    {Name: "get_pet",    Method: rata.GET,    Path: "/people/:owner_id/pets/:pet_id"},
-    {Name: "create_pet", Method: rata.POST,   Path: "/people/:owner_id/pets"},
-    {Name: "update_pet", Method: rata.PUT,    Path: "/people/:owner_id/pets/:pet_id"},
-    {Name: "delete_pet", Method: rata.DELETE, Path: "/people/:owner_id/pets/:pet_id"},
-  }
 
+	petRoutes := rata.Routes{
+	  {Name: "get_pet",    Method: rata.GET,    Path: "/people/:owner_id/pets/:pet_id"},
+	  {Name: "create_pet", Method: rata.POST,   Path: "/people/:owner_id/pets"},
+	  {Name: "update_pet", Method: rata.PUT,    Path: "/people/:owner_id/pets/:pet_id"},
+	  {Name: "delete_pet", Method: rata.DELETE, Path: "/people/:owner_id/pets/:pet_id"},
+	}
 
 On the server, create a matching set of http handlers, one for each route:
-  handlers := rata.Handlers{
-    "get_pet":    newGetPetHandler(),
-    "create_pet": newCreatePetHandler(),
-    "update_pet": newUpdatePetHandler(),
-    "delete_pet": newDeletePetHandler()
-  }
+
+	handlers := rata.Handlers{
+	  "get_pet":    newGetPetHandler(),
+	  "create_pet": newCreatePetHandler(),
+	  "update_pet": newUpdatePetHandler(),
+	  "delete_pet": newDeletePetHandler()
+	}
 
 You can create a router by mixing the routes and handlers together:
-  router, err := rata.NewRouter(petRoutes, handlers)
-  if err != nil {
-    panic(err)
-  }
+
+	router, err := rata.NewRouter(petRoutes, handlers)
+	if err != nil {
+	  panic(err)
+	}
 
 The router is just an http.Handler, so it can be used to create a server in the usual fashion:
-  server := httptest.NewServer(router)
+
+	server := httptest.NewServer(router)
 
 The handlers can obtain parameters derived from the URL path:
 
-  ownerId := rata.Param(request, "owner_id")
+	ownerId := rata.Param(request, "owner_id")
 
 Meanwhile, on the client side, you can create a request generator:
-  requestGenerator := rata.NewRequestGenerator(server.URL, petRoutes)
+
+	requestGenerator := rata.NewRequestGenerator(server.URL, petRoutes)
 
 You can use the request generator to ensure you are creating a valid request:
-  req, err := requestGenerator.CreateRequest("get_pet", rata.Params{"owner_id": "123", "pet_id": "5"}, nil)
+
+	req, err := requestGenerator.CreateRequest("get_pet", rata.Params{"owner_id": "123", "pet_id": "5"}, nil)
 
 The generated request can be used like any other http.Request object:
-  res, err := http.DefaultClient.Do(req)
+
+	res, err := http.DefaultClient.Do(req)
 */
 package rata
